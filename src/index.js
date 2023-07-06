@@ -80,25 +80,18 @@ const MORSE_TABLE_BINARY = {
 function decode(expr) {
     // write your solution here
     const getIterableExpression = (expression, expressionToArr = [], element = '') => {
-        for (let iCount = 0; iCount < expression.length; iCount+= 10) {
-          const getElemSubstring = (expression, element, iCount) => {
-            element = (expression.slice(iCount, iCount+10));
-            return element;
-          }
-        
-          const addZeroBeforeElement = (element) => {
-            while (element.length > 0 && element.length < 10) {
-              element = [...element];
-              element.unshift('0');
-              element = element.join('');
-            }
-            return element;
-          }
-        
+      const getElemSubstring = (expression, element, iCount) => {
+        element = (expression.slice(iCount, iCount+10));
+        return element;
+      }
+    
+      const addZeroBeforeElement = (element) => {
+        return element.padStart(10, `0`);
+      }
+
+      for (let iCount = 0; iCount < expression.length; iCount+= 10) {
           element = getElemSubstring(expression, element, iCount);
-        
           element = addZeroBeforeElement(element);
-        
           expressionToArr.push(element);
         }
         
@@ -115,6 +108,7 @@ function decode(expr) {
               return value;
             };
           })
+          
           return value;
         }
       
@@ -123,14 +117,12 @@ function decode(expr) {
             return getValueEqElement(item);
           }
         })
-      
+        
         return resultArray;
       }
 
       let iterableExpression = getIterableExpression(expr, [], '');
-
       let humanReadableExprArr = convertBinaryMorseToHumanArr(iterableExpression);
-
       let humanReadableExpr = humanReadableExprArr.join('');
 
       return humanReadableExpr;
